@@ -34,14 +34,35 @@ def append_cobra_kai_season_6_finale_data_to_csv():
         post = data[0]["data"]["children"][0]["data"]
         utc_timestamp = post["created_utc"]
         dt = datetime.utcfromtimestamp(utc_timestamp)
-        csv_writer = csv.writer(file)
+        
+        fieldnames = ["post_id","title","body","created_utc","score", 
+        "num_comments","url","bucket",]
+
         if dt.year == 2025:
-            csv_writer.writerows(post["id"], post["title"], post["selftext"], post["created_utc"], post["ups"],
-            post["num_comments"], post["url"], "immediate")
+            with open("cobra_kai_s6_finale_post_data.csv", "a", newline="", encoding="utf-8") as file:
+                writer = csv.DictWriter(file, fieldnames=fieldnames)
+                writer.writerow({
+                "post_id": post.get("id", ""),
+                "title": post.get("title", ""),
+                "body": post.get("selftext", ""),
+                "created_utc": post.get("created_utc", ""),
+                "score": post.get("ups", 0),
+                "num_comments":post.get("num_comments", 0),
+                "url":post.get("url", ""),
+                "bucket":"immediate"})
+
         else:
-            csv_writer.writerows(post["id"], post["title"], post["selftext"], post["created_utc"], post["ups"],
-            post["num_comments"], post["url"], "long_term")
-            
+                with open("cobra_kai_s6_finale_post_data.csv", "a", newline="", encoding="utf-8") as file:
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    writer.writerow({
+                    "post_id": post.get("id", ""),
+                    "title": post.get("title", ""),
+                    "body": post.get("selftext", ""),
+                    "created_utc": post.get("created_utc", ""),
+                    "score": post.get("ups", 0),
+                    "num_comments":post.get("num_comments", 0),
+                    "url":post.get("url", ""),
+                    "bucket":"long_term"})
 
 
         time.sleep(random.uniform(12, 18))
