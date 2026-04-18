@@ -3,6 +3,9 @@ import requests
 import time
 from datetime import datetime
 import random
+import urllib3
+
+session = requests.Session()
 headers = {"User-Agent": "cobra-kai-sentiment-analysis/1.0"}
 
 def create_headers_for_csv():
@@ -28,7 +31,7 @@ def append_cobra_kai_season_6_finale_data_to_csv():
 
         
         
-        response = requests.get(url, headers=headers)
+        response = session.get(url, headers=headers, timeout=10)
         data = response.json()
 
         post = data[0]["data"]["children"][0]["data"]
